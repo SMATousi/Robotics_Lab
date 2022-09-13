@@ -1,0 +1,31 @@
+clc
+clear 
+
+
+[al, cl, ol] = myobjectdetection('leftimage_d1.ppm')
+
+[ar, cr, or] = myobjectdetection('rightimage_d1.ppm')
+
+calib_right = load('Calib_Results_right.mat');
+calib_left = load('Calib_Results_left.mat');
+
+l_kk = calib_left.KK;
+r_kk = calib_right.KK;
+
+l_rc1 = calib_left.Rc_1;
+r_rc1 = calib_right.Rc_1;
+
+l_tc1 = calib_left.Tc_1;
+r_tc1 = calib_right.Tc_1;
+
+%%
+
+
+I = l_kk;
+E = [l_rc1, l_tc1];
+
+q = I*E;
+
+
+
+

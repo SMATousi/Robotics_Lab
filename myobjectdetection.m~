@@ -1,0 +1,38 @@
+function [area, centroids, orientation] = myobjectdetection(image)
+    
+left_image = imread(image);
+
+
+%% Convert to gray scale
+left_image2 = rgb2gray(left_image);
+
+%% 
+level_l = graythresh(left_image2);
+bi_left = imbinarize(left_image2, level_l);
+figure(1), 
+subplot(2,2,1), imshow(bi_left);
+title('Binary image')
+
+%%
+%se = strel('line', 11,90);
+%bi_left2 = imerode(bi_left, se);
+%bi_left3 = ~bi_left2;
+%se = strel('line', 25,90);
+%bi_left4 = imerode(bi_left3, se);
+bi_left4 = imerode(bi_left4, se);
+
+
+figure(1), 
+subplot(2,2,2), imshow(bi_left4);
+title('Filled binary image')
+
+%%
+CC_left = bwconncomp(bi_left4);
+
+centroid_left = regionprops(CC_left, 'centroid', 'area', 'orientation');
+
+
+area = cat(1, centroid_left.Area);
+centroids = cat(1, centroid_left.Centroid);
+orientation = cat(1, centroid_left.Orientation);
+end
